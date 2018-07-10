@@ -1,12 +1,15 @@
 
-from twfy_python import TheyWorkForYou
+from represent.represent import Represent
 
-API_KEY = open("twfy_key").read().strip()
 
-twfy = TheyWorkForYou(API_KEY)
 
-#get one user from id
-t_may = twfy.api.getPerson(id="10426")
-for p in t_may:
-    print (p["full_name"] + p["left_house"])
+if __name__ == "__main__":
 
+    represent = Represent()
+
+    mp = represent.get_mp(10020)
+
+    div = represent.get_division(31595)
+
+
+    print("done")
