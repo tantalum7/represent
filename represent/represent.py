@@ -29,3 +29,13 @@ class Represent:
 
     def get_division(self, division_id):
         return Division(self.db, division_id)
+
+    def search_divisions(self, search_term):
+        division_list = []
+        with self.db.cursor() as cursor:
+            cursor.execute("SELECT division_id FROM pw_division WHERE (division_name LIKE %s)", ("%"+search_term+"%",))
+
+            for row, in cursor:
+                division_list.append(Division(self.db, row))
+
+        return division_list

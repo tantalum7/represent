@@ -1,7 +1,7 @@
 
 from represent.database import MySqlDatabase
 from represent.exceptions import *
-from represent import Constituency
+import represent.constituency
 
 
 class Representative:
@@ -47,8 +47,8 @@ class Representative:
         return "{} {}".format(self.first_name, self.last_name)
 
     @property
-    def constituency(self) -> Constituency:
-        return Constituency(self._database, self._constituency)
+    def constituency(self) -> represent.constituency.Constituency:
+        return represent.constituency.Constituency(self._database, self._constituency)
 
     @property
     def party(self):

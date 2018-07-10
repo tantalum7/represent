@@ -1,0 +1,4 @@
+mysql-connector-python==8.0.11
+protobuf==3.6.0
+six==1.11.0
+-e git+https://github.com/ajparsons/twfy-python.git@740547cece1a3c834909a8e8f9fb944dc8b746c0#egg=twfy_python

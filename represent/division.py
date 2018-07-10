@@ -52,14 +52,14 @@ class Division:
             if not row:
                 raise CannotFindDivisionException("Can't find division id {}".format(self._division_id))
             data = dict(zip(cursor.column_names, row))
-            self._date = datetime.strptime(data.get("division_date"), '%Y-%m-%d')
+            self._date = data.get("division_date")
             self._name = data.get("division_name")
             self._url = data.get("source_url")
             self._motion = data.get("motion")
 
     def load_votes(self):
         with self._db.cursor() as cursor:
-            cursor.execute("SELECT vote FROM pw_vote WHERE (division_id='10387')", (self._division_id,))
+            cursor.execute("SELECT vote FROM pw_vote WHERE (division_id='%s')", (self._division_id,))
             if cursor.rowcount == -1:
                 raise CannotFindVotesException("Can't find votes for division id {}".format(self._division_id))
 
