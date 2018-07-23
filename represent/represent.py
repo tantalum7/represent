@@ -3,6 +3,8 @@ from configparser import ConfigParser
 from represent.database import MySqlDatabase
 from represent.representative import Representative
 from represent.division import Division
+from represent.exceptions import *
+
 
 class Represent:
 
@@ -27,8 +29,25 @@ class Represent:
     def get_representative(self, person_id):
         return Representative(self.db, person_id)
 
-    def get_division(self, division_id):
-        return Division(self.db, division_id)
+    def search_representative(self, first_name, last_name):
+        with self.db.cursor() as cursor:
+            cursor.execute("SELECT person from pw_mp WHERE (first_name LIKE %s AND last_name LIKE %s)", (first_name+"%", last_name+"%"))
+            if cursor.rowcount < 1:
+                raise CannotFindRepresentativeException()
+
+            person_ids = set([p[0] for p in cursor])
+            return [Representative(self.db, person_id) for person_id in person_ids]
+
+    def get_division(self, division_id=None, division_number=None):
+        if division_id:
+            return Division(self.db, division_id)
+        elif division_number:
+            with self.db.cursor() as cursor:
+                cursor.execute("SELECT division_id from pw_division WHERE (division_number=%s)", (division_number,))
+                if cursor.rowcount < 1:
+                    raise CannotFindDivisionException()
+                return Division(self.db, cursor.fetchone()[0])
+
 
     def search_divisions(self, search_term):
         division_list = []

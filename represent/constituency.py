@@ -5,8 +5,8 @@ import represent.database as database
 
 class Constituency:
 
-    def __init__(self, database: database.MySqlDatabase, name: str):
-        self._db = database
+    def __init__(self, db: database.MySqlDatabase, name: str):
+        self._db = db
         self._name = name
         self._elected_rep = None
 
